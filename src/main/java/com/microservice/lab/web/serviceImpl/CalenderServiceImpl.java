@@ -15,6 +15,7 @@ import org.flywaydb.core.internal.util.Pair;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,6 +40,7 @@ public class CalenderServiceImpl implements CalenderService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     @Override
     public Calender add(CalenderRequest calenderRequest) {
         Calender calender = modelMapper.map(calenderRequest, Calender.class);
@@ -48,6 +50,7 @@ public class CalenderServiceImpl implements CalenderService {
         return calenderRepository.save(calender);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Calender> findAll(Integer month, Integer year) {
         User user = authenticationFacade.getAuthentication();
