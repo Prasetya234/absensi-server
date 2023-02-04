@@ -27,7 +27,7 @@ public class TokenProvider {
     }
 
     public TokenTemporary generateToken(UserDetails userDetails) {
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("EMAIL NOT FOUND IN GENERATE TOKEN"));
+        User user = userRepository.findByEmail(userDetails.getUsername()).get();
         Optional<TokenTemporary> data = temporaryTokenRepository.findByUser(user);
         if (data.isPresent()) temporaryTokenRepository.delete(data.get());
         return temporaryTokenRepository.save(TokenTemporary.builder()

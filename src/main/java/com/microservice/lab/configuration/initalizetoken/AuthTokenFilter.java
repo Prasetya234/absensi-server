@@ -29,7 +29,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = getTokenHeader(request);
-            System.out.println(token);
             if (token != null) {
                 boolean isNotExpired = tokenProvider.validateJwtToken(token);
                 if (isNotExpired) {

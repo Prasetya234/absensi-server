@@ -1,6 +1,7 @@
 package com.microservice.lab.web.serviceImpl;
 
 import com.microservice.lab.configuration.data.UserDetailsServiceImpl;
+import com.microservice.lab.configuration.exception.BussinesException;
 import com.microservice.lab.configuration.exception.NotFoundException;
 import com.microservice.lab.configuration.initalizetoken.TokenProvider;
 import com.microservice.lab.web.dto.LoginRequest;
@@ -54,6 +55,8 @@ public  class AuthenticationServiceImpl implements AuthenticationService {
             throw new BadCredentialsException(e.getMessage());
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("EMAIL NOT FOUND IN GENERATE TOKEN"));
+        if (!user.getRoleId().getName().equals(loginRequest.getType().name())) throw new BussinesException("ACCESS REJECTED");
         return tokenProvider.generateToken(userDetails);
     }
 
