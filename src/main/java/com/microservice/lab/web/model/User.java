@@ -1,11 +1,15 @@
 package com.microservice.lab.web.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.microservice.lab.configuration.auditable.DateConfig;
 import com.microservice.lab.web.enumated.GenderEnum;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
@@ -28,6 +32,7 @@ public class User extends DateConfig {
     private String lastName;
     @Column(name = "email")
     private String email;
+    @JsonIgnore
     @Column(name = "password")
     private String password;
     @Column(name = "avatar_url")
@@ -42,6 +47,7 @@ public class User extends DateConfig {
     @Enumerated(EnumType.STRING)
     @Column(name="gender")
     private GenderEnum gender;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "birth_date")
     private Date birthDate;
     @Column(name = "favorite")
