@@ -12,7 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/class-bootcamp")
+@RequestMapping("/api/class-bootcamp")
 public class ClassBootcampController {
     private ClassBootcampService classBootcampService;
 
