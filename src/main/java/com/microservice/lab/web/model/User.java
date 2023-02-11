@@ -8,8 +8,6 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
@@ -52,6 +50,8 @@ public class User extends DateConfig {
     private Date birthDate;
     @Column(name = "favorite")
     private Boolean favorite;
+    @Column(name = "viewers")
+    private Integer viewers;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role roleId;

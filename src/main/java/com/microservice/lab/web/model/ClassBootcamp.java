@@ -33,4 +33,7 @@ public class ClassBootcamp extends DateConfig {
     private String numberPhone;
     @Column(name = "total_student")
     private Integer totalStudent;
+    @Lob
+    @Column(name = "background_profile")
+    private String backgroundProfile;
 }

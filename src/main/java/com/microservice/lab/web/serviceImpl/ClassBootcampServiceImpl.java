@@ -48,6 +48,7 @@ public class ClassBootcampServiceImpl implements ClassBootcampService {
         create.setLeadInstructor(classBootcamp.getLeadInstructor());
         create.setNumberPhone(classBootcamp.getNumberPhone());
         create.setTotalStudent(0);
+        create.setBackgroundProfile(classBootcamp.getBackgroundProfile());
         return classBootcampRepository.save(create);
     }
 
