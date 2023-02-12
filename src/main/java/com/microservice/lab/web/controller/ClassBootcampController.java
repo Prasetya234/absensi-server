@@ -27,6 +27,11 @@ public class ClassBootcampController {
         return ResponseHelper.ok(classBootcampService.add(classBootcamp));
     }
 
+    @GetMapping("/{id}")
+    public CommonResponse<ClassBootcamp> findById(@PathVariable("id") String id) {
+        return ResponseHelper.ok(classBootcampService.findById(id));
+    }
+
     @GetMapping
     public CommonResponse<Page<ClassBootcamp>> findAll(@RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page,size);

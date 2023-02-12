@@ -28,8 +28,8 @@ public class AuthenticationController {
     public CommonResponse<TokenTemporary> login(@RequestBody LoginRequest loginRequest) {
         return ResponseHelper.ok(authenticationService.login(loginRequest));
     }
-//    @PostMapping("/register")
-//    public CommonResponse<User> register(@RequestBody RegisterRequest registerRequest) {
-//        return ResponseHelper.ok(authenticationService.register(registerRequest));
-//    }
+    @PostMapping("/register")
+    public CommonResponse<User> register(@RequestBody RegisterRequest registerRequest) {
+        return ResponseHelper.ok(authenticationService.register(registerRequest));
+    }
 }

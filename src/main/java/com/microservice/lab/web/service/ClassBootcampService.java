@@ -8,6 +8,7 @@ import java.util.Map;
 
 public interface ClassBootcampService {
     ClassBootcamp add(ClassBootcamp classBootcamp);
+    ClassBootcamp findById(String id);
     Page<ClassBootcamp> findAll(Pageable pageable);
     ClassBootcamp update(String id, ClassBootcamp classBootcamp);
     Map<String, Object> delete(String id);

@@ -40,8 +40,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**",
+            // -- Massaging
+            "/ws/**",
+            "/chatroom",
+            "/user/**",
             // API controller
             "/api/login",
+            "/api/register",
             "/"
     };
 

@@ -33,6 +33,12 @@ public class ClassBootcampServiceImpl implements ClassBootcampService {
 
     @Transactional(readOnly = true)
     @Override
+    public ClassBootcamp findById(String id) {
+        return classBootcampRepository.findById(id).orElseThrow(() -> new NotFoundException("CLASS ID NOT FOUND"));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public Page<ClassBootcamp> findAll(Pageable pageable) {
         return classBootcampRepository.findAll(pageable);
     }
