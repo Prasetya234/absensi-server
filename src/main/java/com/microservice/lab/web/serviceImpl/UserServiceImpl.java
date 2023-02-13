@@ -18,9 +18,11 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     @Override
     public User getUserById(String id) {
-        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User id NOT FOUND"));
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User id NOT FOUND"));
+        user.setViewers(user.getViewers() + 1);
+        return userRepository.save(user);
     }
 }
