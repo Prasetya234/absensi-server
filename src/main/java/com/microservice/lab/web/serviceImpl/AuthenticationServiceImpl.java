@@ -67,6 +67,7 @@ public  class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setClassBootcampId(classBootcampRepository.findById(registerRequest.getClassBootcampId()).orElseThrow(() -> new NotFoundException("CLASS BOOTCAMP ID NOT FOUND")));
         user.setRoleId(roleRepository.findById(1).get());
+        user.setViewers(0);
         return userRepository.save(user);
     }
 }
