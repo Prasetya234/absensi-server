@@ -3,6 +3,7 @@ package com.microservice.lab.web.controller;
 import com.microservice.lab.configuration.response.CommonResponse;
 import com.microservice.lab.configuration.response.ResponseHelper;
 import com.microservice.lab.web.model.ClassBootcamp;
+import com.microservice.lab.web.model.User;
 import com.microservice.lab.web.service.ClassBootcampService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/class-bootcamp")
@@ -25,6 +28,12 @@ public class ClassBootcampController {
     @PostMapping
     public CommonResponse<ClassBootcamp> add(@RequestBody ClassBootcamp classBootcamp) {
         return ResponseHelper.ok(classBootcampService.add(classBootcamp));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
+    @GetMapping("/students")
+    public CommonResponse<List<User>> findAllStudents() {
+        return ResponseHelper.ok(classBootcampService.findAllStudents());
     }
 
     @GetMapping("/{id}")

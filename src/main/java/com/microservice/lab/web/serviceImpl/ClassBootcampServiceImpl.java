@@ -1,8 +1,12 @@
 package com.microservice.lab.web.serviceImpl;
 
+import com.microservice.lab.configuration.data.IAuthenticationFacade;
 import com.microservice.lab.configuration.exception.NotFoundException;
 import com.microservice.lab.web.model.ClassBootcamp;
+import com.microservice.lab.web.model.User;
 import com.microservice.lab.web.repository.ClassBootcampRepository;
+import com.microservice.lab.web.repository.RoleRepository;
+import com.microservice.lab.web.repository.UserRepository;
 import com.microservice.lab.web.service.ClassBootcampService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -19,10 +24,16 @@ import java.util.Map;
 public class ClassBootcampServiceImpl implements ClassBootcampService {
 
     private ClassBootcampRepository classBootcampRepository;
+    private UserRepository userRepository;
+    private IAuthenticationFacade authenticationFacade;
+    private RoleRepository roleRepository;
 
     @Autowired
-    public ClassBootcampServiceImpl(ClassBootcampRepository classBootcampRepository) {
+    public ClassBootcampServiceImpl(ClassBootcampRepository classBootcampRepository, UserRepository userRepository, IAuthenticationFacade authenticationFacade, RoleRepository roleRepository) {
         this.classBootcampRepository = classBootcampRepository;
+        this.userRepository = userRepository;
+        this.authenticationFacade = authenticationFacade;
+        this.roleRepository = roleRepository;
     }
 
     @Transactional
@@ -56,6 +67,11 @@ public class ClassBootcampServiceImpl implements ClassBootcampService {
         create.setTotalStudent(0);
         create.setBackgroundProfile(classBootcamp.getBackgroundProfile());
         return classBootcampRepository.save(create);
+    }
+
+    @Override
+    public List<User> findAllStudents() {
+        return userRepository.findAllByClassBootcampIdAndRoleId(authenticationFacade.getAuthentication().getClassBootcampId(), roleRepository.findById(1).get());
     }
 
     @Transactional

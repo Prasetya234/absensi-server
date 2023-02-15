@@ -36,4 +36,9 @@ public class ClassBootcamp extends DateConfig {
     @Lob
     @Column(name = "background_profile")
     private String backgroundProfile;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "operational_class_id")
+    private OperationalClass operationalClass;
+    @Transient
+    private GoingHomeEarly goingHomeEarly;
 }
