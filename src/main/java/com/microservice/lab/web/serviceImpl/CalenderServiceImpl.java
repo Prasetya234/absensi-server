@@ -1,7 +1,6 @@
 package com.microservice.lab.web.serviceImpl;
 
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
-import com.microservice.lab.configuration.exception.NotFoundException;
 import com.microservice.lab.utils.DateConfig;
 import com.microservice.lab.web.dto.CalenderRequest;
 import com.microservice.lab.web.dto.DateResponse;
@@ -11,16 +10,11 @@ import com.microservice.lab.web.repository.CalenderRepository;
 import com.microservice.lab.web.repository.ClassBootcampRepository;
 import com.microservice.lab.web.service.CalenderService;
 import lombok.extern.slf4j.Slf4j;
-import org.flywaydb.core.internal.util.Pair;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @Slf4j
