@@ -4,6 +4,7 @@ import com.microservice.lab.configuration.data.UserDetailsServiceImpl;
 import com.microservice.lab.configuration.initalizetoken.AuthTokenFilter;
 import com.microservice.lab.configuration.initalizetoken.exception.AccessDenied;
 import com.microservice.lab.configuration.initalizetoken.exception.Unauthorized;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthTokenFilter authenticationTokenFilter() {
         return new AuthTokenFilter();
     }
+
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {

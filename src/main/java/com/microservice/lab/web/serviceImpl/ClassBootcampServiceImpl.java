@@ -3,8 +3,10 @@ package com.microservice.lab.web.serviceImpl;
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
 import com.microservice.lab.configuration.exception.NotFoundException;
 import com.microservice.lab.web.model.ClassBootcamp;
+import com.microservice.lab.web.model.OperationalClass;
 import com.microservice.lab.web.model.User;
 import com.microservice.lab.web.repository.ClassBootcampRepository;
+import com.microservice.lab.web.repository.OperationalClassRepository;
 import com.microservice.lab.web.repository.RoleRepository;
 import com.microservice.lab.web.repository.UserRepository;
 import com.microservice.lab.web.service.ClassBootcampService;
@@ -26,26 +28,31 @@ public class ClassBootcampServiceImpl implements ClassBootcampService {
     private ClassBootcampRepository classBootcampRepository;
     private UserRepository userRepository;
     private IAuthenticationFacade authenticationFacade;
+
+    private OperationalClassRepository operationalClassRepository;
     private RoleRepository roleRepository;
 
     @Autowired
-    public ClassBootcampServiceImpl(ClassBootcampRepository classBootcampRepository, UserRepository userRepository, IAuthenticationFacade authenticationFacade, RoleRepository roleRepository) {
+    public ClassBootcampServiceImpl(ClassBootcampRepository classBootcampRepository, UserRepository userRepository, IAuthenticationFacade authenticationFacade, RoleRepository roleRepository, OperationalClassRepository operationalClassRepository) {
         this.classBootcampRepository = classBootcampRepository;
         this.userRepository = userRepository;
         this.authenticationFacade = authenticationFacade;
+        this.operationalClassRepository = operationalClassRepository;
         this.roleRepository = roleRepository;
     }
 
     @Transactional
     @Override
     public ClassBootcamp add(ClassBootcamp classBootcamp) {
+        OperationalClass operationalClass = operationalClassRepository.save(classBootcamp.getOperationalClass());
+        classBootcamp.setOperationalClass(operationalClass);
         return classBootcampRepository.save(classBootcamp);
     }
 
     @Transactional(readOnly = true)
     @Override
     public ClassBootcamp findById(String id) {
-        return classBootcampRepository.findById(id).orElseThrow(() -> new NotFoundException("CLASS ID NOT FOUND"));
+            return classBootcampRepository.findById(id).orElseThrow(() -> new NotFoundException("CLASS ID NOT FOUND"));
     }
 
     @Transactional(readOnly = true)
@@ -57,16 +64,18 @@ public class ClassBootcampServiceImpl implements ClassBootcampService {
     @Transactional
     @Override
     public ClassBootcamp update(String id, ClassBootcamp classBootcamp) {
-        ClassBootcamp create = classBootcampRepository.findById(id).orElseThrow(() -> new NotFoundException("Class Bootcamp Id NOT FOUND"));
-        create.setName(classBootcamp.getName());
-        create.setAddress(classBootcamp.getAddress());
-        create.setFoundation(classBootcamp.getFoundation());
-        create.setAvatarUrl(classBootcamp.getAvatarUrl());
-        create.setLeadInstructor(classBootcamp.getLeadInstructor());
-        create.setNumberPhone(classBootcamp.getNumberPhone());
-        create.setTotalStudent(0);
-        create.setBackgroundProfile(classBootcamp.getBackgroundProfile());
-        return classBootcampRepository.save(create);
+        ClassBootcamp update = classBootcampRepository.findById(id).orElseThrow(() -> new NotFoundException("Class Bootcamp Id NOT FOUND"));
+        update.setName(classBootcamp.getName());
+        update.setAddress(classBootcamp.getAddress());
+        update.setFoundation(classBootcamp.getFoundation());
+        update.setAvatarUrl(classBootcamp.getAvatarUrl());
+        update.setLeadInstructor(classBootcamp.getLeadInstructor());
+        update.setNumberPhone(classBootcamp.getNumberPhone());
+        update.setTotalStudent(0);
+        update.setBackgroundProfile(classBootcamp.getBackgroundProfile());
+        OperationalClass operationalClass = operationalClassRepository.save(classBootcamp.getOperationalClass());
+        update.setOperationalClass(operationalClass);
+        return classBootcampRepository.save(update);
     }
 
     @Override

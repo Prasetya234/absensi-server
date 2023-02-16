@@ -1,12 +1,14 @@
 package com.microservice.lab.web.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.microservice.lab.configuration.auditable.DateConfig;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -29,10 +31,11 @@ public class FaceUser extends DateConfig {
     @Column(name = "detector_score")
     private String detectorScore;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User userId;
 
     @Transient
-    private ArrayList<Float> detectorScores = new ArrayList<>();
+    private List<String> detectorScores = new ArrayList<>();
 }
