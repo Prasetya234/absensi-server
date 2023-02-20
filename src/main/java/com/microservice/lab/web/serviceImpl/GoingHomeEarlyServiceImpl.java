@@ -31,18 +31,18 @@ public class GoingHomeEarlyServiceImpl implements GoingHomeEarlyService {
     @Transactional
     @Override
     public GoingHomeEarly add(GoingHomeEarly goingHomeEarly) {
-        return (GoingHomeEarly) goingHomeEarlyRepository.save(goingHomeEarly);
+        return goingHomeEarlyRepository.save(goingHomeEarly);
     }
 
-//    @Transactional
-//    @Override
-//    public GoingHomeEarly update(Integer id, GoingHomeEarly goingHomeEarly) {
-//        GoingHomeEarly goingHomeEarly1 = goingHomeEarlyRepository.findById(id).orElseThrow(() -> new NotFoundException("Going Home Early Id NOT FOUND"));
-//        goingHomeEarly1.setNote(goingHomeEarly.getNote());
-//        goingHomeEarly1.setDate(goingHomeEarly.getDate());
-//        goingHomeEarly1.setMarkBy(goingHomeEarly.getMarkBy());
-//        return goingHomeEarlyRepository.save(goingHomeEarly1);
-//    }
+    @Transactional
+    @Override
+    public GoingHomeEarly update(Integer id, GoingHomeEarly goingHomeEarly) {
+        GoingHomeEarly goingHomeEarly1 = goingHomeEarlyRepository.findById(id).orElseThrow(() -> new NotFoundException("Going Home Early Id NOT FOUND"));
+        goingHomeEarly1.setNote(goingHomeEarly.getNote());
+        goingHomeEarly1.setDate(goingHomeEarly.getDate());
+        goingHomeEarly1.setMarkBy(goingHomeEarly.getMarkBy());
+        return goingHomeEarlyRepository.save(goingHomeEarly1);
+    }
 
     @Transactional
     @Override

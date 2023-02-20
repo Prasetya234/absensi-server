@@ -1,6 +1,7 @@
 package com.microservice.lab.web.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Calender {
     @Column(name = "is_holiday")
     private Boolean isHoliday;
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "class_bootcamp_id")
     private ClassBootcamp classBootcampId;
 }

@@ -36,11 +36,11 @@ public class GoingHomeEarlyController {
         goingHomeEarly.setClassBootcampId(user.getClassBootcampId());
         return ResponseHelper.ok(goingHomeEarlyService.add(goingHomeEarly));
     }
-//
-//    @PutMapping("/{id}")
-//    public CommonResponse<GoingHomeEarly> update(@PathVariable("id") Integer id, @RequestBody GoingHomeEarly goingHomeEarly) {
-//        return ResponseHelper.ok(goingHomeEarlyService.update(id, goingHomeEarly));
-//    }
+
+    @PutMapping("/{id}")
+    public CommonResponse<GoingHomeEarly> update(@PathVariable("id") Integer id, @RequestBody GoingHomeEarly goingHomeEarly) {
+        return ResponseHelper.ok(goingHomeEarlyService.update(id, goingHomeEarly));
+    }
 
     @DeleteMapping("/{id}")
     public CommonResponse<Object> delete(@PathVariable("id") Integer id) {

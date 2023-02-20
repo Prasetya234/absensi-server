@@ -1,5 +1,6 @@
 package com.microservice.lab.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.microservice.lab.configuration.auditable.DateConfig;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class GoingHomeEarly extends DateConfig {
     @Column(name = "mark_by")
     private String markBy;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "class_bootcamp_id")
     private ClassBootcamp classBootcampId;
 }

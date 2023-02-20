@@ -1,5 +1,6 @@
 package com.microservice.lab.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.microservice.lab.configuration.auditable.DateConfig;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -34,12 +35,15 @@ public class Presensi extends DateConfig {
     @Column(name = "note")
     private String note;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "reason_id")
     private Reason reasonId;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "user_id")
     private User userId;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "class_bootcamp_id")
     private ClassBootcamp classBootcampId;
 }

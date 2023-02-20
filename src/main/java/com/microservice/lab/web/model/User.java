@@ -2,6 +2,7 @@ package com.microservice.lab.web.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.microservice.lab.configuration.auditable.DateConfig;
 import com.microservice.lab.web.enumated.GenderEnum;
 import lombok.*;
@@ -56,6 +57,7 @@ public class User extends DateConfig {
     @JoinColumn(name = "role_id")
     private Role roleId;
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "class_bootcamp_id")
     private ClassBootcamp classBootcampId;
 }

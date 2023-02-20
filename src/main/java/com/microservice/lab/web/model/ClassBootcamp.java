@@ -1,5 +1,6 @@
 package com.microservice.lab.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.microservice.lab.configuration.auditable.DateConfig;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -37,6 +38,7 @@ public class ClassBootcamp extends DateConfig {
     @Column(name = "background_profile")
     private String backgroundProfile;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "operational_class_id")
     private OperationalClass operationalClass;
     @Transient
