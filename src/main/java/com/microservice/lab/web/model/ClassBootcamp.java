@@ -37,7 +37,7 @@ public class ClassBootcamp extends DateConfig {
     @Lob
     @Column(name = "background_profile")
     private String backgroundProfile;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "operational_class_id")
     private OperationalClass operationalClass;

@@ -71,7 +71,6 @@ public class ClassBootcampServiceImpl implements ClassBootcampService {
         update.setAvatarUrl(classBootcamp.getAvatarUrl());
         update.setLeadInstructor(classBootcamp.getLeadInstructor());
         update.setNumberPhone(classBootcamp.getNumberPhone());
-        update.setTotalStudent(0);
         update.setBackgroundProfile(classBootcamp.getBackgroundProfile());
         OperationalClass operationalClass = operationalClassRepository.save(classBootcamp.getOperationalClass());
         update.setOperationalClass(operationalClass);
