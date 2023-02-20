@@ -49,7 +49,7 @@ public class FaceUserServiceImpl implements FaceUserService {
 
     @Override
     public FaceUser findByUserId(String userId) {
-        return response(faceUserRepository.findByUserId(authenticationFacade.getAuthentication()).orElseThrow(() -> new NotFoundException("FACE NOT FOUND")));
+        return response(faceUserRepository.findByUserId(userRepository.findById(userId).orElse(null)).orElseThrow(() -> new NotFoundException("FACE NOT FOUND")));
     }
 
     private FaceUser response(FaceUser faceUser) {
