@@ -11,7 +11,7 @@ public interface GoingHomeEarlyService {
 
     GoingHomeEarly add(GoingHomeEarly goingHomeEarly);
 
-//    GoingHomeEarly update(Integer id, GoingHomeEarly goingHomeEarly);
+    GoingHomeEarly update(Integer id, GoingHomeEarly goingHomeEarly);
 
     Map<String, Object> delete(Integer id);
 }
