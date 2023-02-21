@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<User> findAllByClassBootcampIdAndRoleId(ClassBootcamp classBootcampId, Role roleId);
 
     Optional<User> findByEmail(String email);
+
+    Boolean existsByEmail(String email);
 }
