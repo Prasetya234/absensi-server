@@ -14,8 +14,9 @@ import java.util.Optional;
 @Repository
 public interface PresensiRepository extends JpaRepository<Presensi, String> {
     List<Presensi> findAllByClassBootcampId(ClassBootcamp classBootcamp);
-    List<Presensi> findAllByUserId(User user);
     List<Presensi> findAllByIsLate(boolean isLate);
-    @Query(value = "SELECT * FROM presensi WHERE CAST(date_submit AS DATE) = ?1", nativeQuery = true)
-    Optional<Presensi> findByDateSubmit(String dateSubmit);
+    @Query(value = "SELECT * FROM presensi WHERE CAST(date_submit AS DATE) = ?1 AND user_id = ?2", nativeQuery = true)
+    Optional<Presensi> findByDateSubmit(String dateSubmit, String userId);
+
+
 }

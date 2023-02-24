@@ -4,8 +4,10 @@ import com.microservice.lab.configuration.exception.BussinesException;
 import com.microservice.lab.web.dto.PresensiDTO;
 import com.microservice.lab.web.model.FaceUser;
 import com.microservice.lab.web.model.Presensi;
+import com.microservice.lab.web.model.User;
 import com.microservice.lab.web.repository.FaceUserRepository;
 import com.microservice.lab.web.repository.PresensiRepository;
+import com.microservice.lab.web.repository.UserRepository;
 import com.microservice.lab.web.service.PresensiService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -31,17 +33,20 @@ public class PresensiServiceImpl implements PresensiService {
     private FaceUserRepository faceUserRepository;
     private ModelMapper modelMapper;
 
+    private UserRepository userRepository;
+
     @Autowired
-    public PresensiServiceImpl(IAuthenticationFacade authenticationFacade, PresensiRepository presensiRepository,ModelMapper modelMapper, FaceUserRepository faceUserRepository) {
+    public PresensiServiceImpl(IAuthenticationFacade authenticationFacade, PresensiRepository presensiRepository,ModelMapper modelMapper, FaceUserRepository faceUserRepository, UserRepository userRepository) {
         this.authenticationFacade = authenticationFacade;
         this.presensiRepository = presensiRepository;
         this.faceUserRepository = faceUserRepository;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
     }
 
     @Override
     public Presensi absen(PresensiDTO presensiDTO) {
-        if (presensiRepository.findByDateSubmit(dateNow()).isPresent()) throw new BussinesException("YOU ALREADY ABSENCE");
+        if (presensiRepository.findByDateSubmit(dateNow(), authenticationFacade.getAuthentication().getId()).isPresent()) throw new BussinesException("YOU ALREADY ABSENCE");
         boolean isFaceReady = false;
         FaceUser faceUser = faceUserRepository.findByUserId(authenticationFacade.getAuthentication()).get();
         Presensi presensi = modelMapper.map(presensiDTO, Presensi.class);
@@ -64,7 +69,7 @@ public class PresensiServiceImpl implements PresensiService {
     @Override
     public Map<String, Boolean> absentAvailable() {
         Map<String, Boolean> obj = new HashMap<>();
-        obj.put("absen", presensiRepository.findByDateSubmit(dateNow()).isEmpty());
+        obj.put("absen", presensiRepository.findByDateSubmit(dateNow(), authenticationFacade.getAuthentication().getId()).isPresent());
         obj.put("face", faceUserRepository.findByUserId(authenticationFacade.getAuthentication()).isPresent());
         return  obj;
     }
