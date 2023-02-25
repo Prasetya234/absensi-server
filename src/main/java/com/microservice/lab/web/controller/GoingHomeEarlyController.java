@@ -33,7 +33,7 @@ public class GoingHomeEarlyController {
     @PostMapping
     public CommonResponse<GoingHomeEarly> add(@RequestBody GoingHomeEarly goingHomeEarly) {
         User user = iAuthenticationFacade.getAuthentication();
-        goingHomeEarly.setClassBootcampId(user.getClassBootcampId());
+        goingHomeEarly.setSchoolId(user.getSchoolId());
         return ResponseHelper.ok(goingHomeEarlyService.add(goingHomeEarly));
     }
 

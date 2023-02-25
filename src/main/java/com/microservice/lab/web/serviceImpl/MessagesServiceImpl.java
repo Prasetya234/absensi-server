@@ -34,6 +34,6 @@ public class MessagesServiceImpl implements MessagesService {
     @Transactional(readOnly = true)
     @Override
     public List<Messages> messages() {
-        return massagesRepository.findAllBySchoolId(authenticationFacade.getAuthentication().getClassBootcampId().getId());
+        return massagesRepository.findAllBySchoolId(authenticationFacade.getAuthentication().getSchoolId().getId());
     }
 }

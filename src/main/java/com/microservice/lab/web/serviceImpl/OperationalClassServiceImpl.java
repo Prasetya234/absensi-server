@@ -20,6 +20,6 @@ public class OperationalClassServiceImpl implements OperationalClassService {
 
     @Override
     public OperationalClass getOperationalClass() {
-        return authenticationFacade.getAuthentication().getClassBootcampId().getOperationalClass();
+        return authenticationFacade.getAuthentication().getSchoolId().getOperationalClass();
     }
 }

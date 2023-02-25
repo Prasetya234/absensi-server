@@ -7,7 +7,7 @@ import com.microservice.lab.web.dto.DateResponse;
 import com.microservice.lab.web.model.Calender;
 import com.microservice.lab.web.model.User;
 import com.microservice.lab.web.repository.CalenderRepository;
-import com.microservice.lab.web.repository.ClassBootcampRepository;
+import com.microservice.lab.web.repository.SchoolRepository;
 import com.microservice.lab.web.service.CalenderService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -22,14 +22,14 @@ import java.util.List;
 public class CalenderServiceImpl implements CalenderService {
 
     private IAuthenticationFacade authenticationFacade;
-    private ClassBootcampRepository classBootcampRepository;
+    private SchoolRepository schoolRepository;
     private CalenderRepository calenderRepository;
     private ModelMapper modelMapper;
 
     @Autowired
-    public CalenderServiceImpl(IAuthenticationFacade authenticationFacade, ClassBootcampRepository classBootcampRepository, CalenderRepository calenderRepository, ModelMapper modelMapper) {
+    public CalenderServiceImpl(IAuthenticationFacade authenticationFacade, SchoolRepository schoolRepository, CalenderRepository calenderRepository, ModelMapper modelMapper) {
         this.authenticationFacade = authenticationFacade;
-        this.classBootcampRepository = classBootcampRepository;
+        this.schoolRepository = schoolRepository;
         this.calenderRepository = calenderRepository;
         this.modelMapper = modelMapper;
     }
@@ -40,7 +40,7 @@ public class CalenderServiceImpl implements CalenderService {
         Calender calender = modelMapper.map(calenderRequest, Calender.class);
         User user = authenticationFacade.getAuthentication();
         calender.setMaker(user.getFirstName() + " " + user.getLastName());
-        calender.setClassBootcampId(user.getClassBootcampId());
+        calender.setSchoolId(user.getSchoolId());
         return calenderRepository.save(calender);
     }
 
@@ -50,10 +50,10 @@ public class CalenderServiceImpl implements CalenderService {
         User user = authenticationFacade.getAuthentication();
         if (month == null || year == null) {
             DateResponse date = new DateConfig().getDateRange();
-            return calenderRepository.findAllByDateAfterAndDateBeforeAndClassBootcampId(date.getStart(), date.getEnd(), user.getClassBootcampId());
+            return calenderRepository.findAllByDateAfterAndDateBeforeAndSchoolId(date.getStart(), date.getEnd(), user.getSchoolId());
         }
         DateResponse date = new DateConfig().getDateRange(month, year);
-        return calenderRepository.findAllByDateAfterAndDateBeforeAndClassBootcampId(date.getStart(), date.getEnd(), user.getClassBootcampId());
+        return calenderRepository.findAllByDateAfterAndDateBeforeAndSchoolId(date.getStart(), date.getEnd(), user.getSchoolId());
     }
 
 }

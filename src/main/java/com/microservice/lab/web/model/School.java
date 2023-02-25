@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "class_bootcamp")
-public class ClassBootcamp extends DateConfig {
+@Table(name = "school")
+public class School extends DateConfig {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")

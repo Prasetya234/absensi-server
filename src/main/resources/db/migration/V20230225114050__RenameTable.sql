@@ -1,0 +1,1 @@
+ALTER TABLE class_bootcamp RENAME school;

@@ -8,7 +8,7 @@ import com.microservice.lab.web.dto.LoginRequest;
 import com.microservice.lab.web.dto.RegisterRequest;
 import com.microservice.lab.web.model.TokenTemporary;
 import com.microservice.lab.web.model.User;
-import com.microservice.lab.web.repository.ClassBootcampRepository;
+import com.microservice.lab.web.repository.SchoolRepository;
 import com.microservice.lab.web.repository.RoleRepository;
 import com.microservice.lab.web.repository.UserRepository;
 import com.microservice.lab.web.service.AuthenticationService;
@@ -30,18 +30,18 @@ public  class AuthenticationServiceImpl implements AuthenticationService {
     private TokenProvider tokenProvider;
     private ModelMapper modelMapper;
     private PasswordEncoder passwordEncoder;
-    private ClassBootcampRepository classBootcampRepository;
+    private SchoolRepository schoolRepository;
     private AuthenticationManager authenticationManager;
     private RoleRepository roleRepository;
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    public AuthenticationServiceImpl(UserRepository userRepository, TokenProvider tokenProvider, ModelMapper modelMapper, PasswordEncoder passwordEncoder, ClassBootcampRepository classBootcampRepository, RoleRepository roleRepository, AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService) {
+    public AuthenticationServiceImpl(UserRepository userRepository, TokenProvider tokenProvider, ModelMapper modelMapper, PasswordEncoder passwordEncoder, SchoolRepository schoolRepository, RoleRepository roleRepository, AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService) {
         this.userRepository = userRepository;
         this.tokenProvider = tokenProvider;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
-        this.classBootcampRepository = classBootcampRepository;
+        this.schoolRepository = schoolRepository;
         this.roleRepository = roleRepository;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
@@ -65,7 +65,7 @@ public  class AuthenticationServiceImpl implements AuthenticationService {
     public User register(RegisterRequest registerRequest) {
         User user = modelMapper.map(registerRequest, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setClassBootcampId(classBootcampRepository.findById(registerRequest.getClassBootcampId()).orElseThrow(() -> new NotFoundException("CLASS BOOTCAMP ID NOT FOUND")));
+        user.setSchoolId(schoolRepository.findById(registerRequest.getSchoolId()).orElseThrow(() -> new NotFoundException("CLASS BOOTCAMP ID NOT FOUND")));
         user.setRoleId(roleRepository.findById(1).get());
         user.setViewers(0);
         return userRepository.save(user);

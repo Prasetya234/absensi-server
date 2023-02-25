@@ -4,7 +4,6 @@ import com.microservice.lab.configuration.exception.BussinesException;
 import com.microservice.lab.web.dto.PresensiDTO;
 import com.microservice.lab.web.model.FaceUser;
 import com.microservice.lab.web.model.Presensi;
-import com.microservice.lab.web.model.User;
 import com.microservice.lab.web.repository.FaceUserRepository;
 import com.microservice.lab.web.repository.PresensiRepository;
 import com.microservice.lab.web.repository.UserRepository;
@@ -17,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +51,7 @@ public class PresensiServiceImpl implements PresensiService {
             if (faceNumb.equals(presensiDTO.getFaceNumber())) isFaceReady = true;
         }
         if (!isFaceReady) throw new BussinesException("FACE DATA NOT FOUND");
-        presensi.setClassBootcampId(authenticationFacade.getAuthentication().getClassBootcampId());
+        presensi.setSchoolId(authenticationFacade.getAuthentication().getSchoolId());
         presensi.setUserId(authenticationFacade.getAuthentication());
         return presensiRepository.save(presensi);
     }
@@ -62,7 +59,7 @@ public class PresensiServiceImpl implements PresensiService {
     @Transactional(readOnly = true)
     @Override
     public List<Presensi> findAllData(Boolean isLate) {
-        if (isLate == null) return presensiRepository.findAllByClassBootcampId(authenticationFacade.getAuthentication().getClassBootcampId());
+        if (isLate == null) return presensiRepository.findAllBySchoolId(authenticationFacade.getAuthentication().getSchoolId());
          return presensiRepository.findAllByIsLate(isLate);
     }
 

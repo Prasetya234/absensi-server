@@ -45,5 +45,5 @@ public class Presensi extends DateConfig {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "class_bootcamp_id")
-    private ClassBootcamp classBootcampId;
+    private School schoolId;
 }

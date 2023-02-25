@@ -1,6 +1,6 @@
 package com.microservice.lab.web.repository;
 
-import com.microservice.lab.web.model.ClassBootcamp;
+import com.microservice.lab.web.model.School;
 import com.microservice.lab.web.model.Role;
 import com.microservice.lab.web.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, String> {
 
     User getUserById(String id);
-    List<User> findAllByClassBootcampIdAndRoleId(ClassBootcamp classBootcampId, Role roleId);
+    List<User> findAllBySchoolIdAndRoleId(School schoolId, Role roleId);
 
     Optional<User> findByEmail(String email);
 

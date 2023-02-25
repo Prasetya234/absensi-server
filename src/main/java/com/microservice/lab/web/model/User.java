@@ -59,5 +59,5 @@ public class User extends DateConfig {
     @ManyToOne
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "class_bootcamp_id")
-    private ClassBootcamp classBootcampId;
+    private School schoolId;
 }
