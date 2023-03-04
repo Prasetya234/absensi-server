@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
 
+import static com.microservice.lab.utils.Data.REVERSE_TOKEN_EXPIRE;
 import static com.microservice.lab.utils.Data.TOKEN_EXPIRE;
 
 @Component
@@ -32,7 +33,7 @@ public class TokenProvider {
         if (data.isPresent()) temporaryTokenRepository.delete(data.get());
         return temporaryTokenRepository.save(TokenTemporary.builder()
                 .token(generateRandomToken())
-                .validityPeriod("30 Minute")
+                .validityPeriod("5 hours")
                 .user(user)
                 .expiredDate(new Date((new Date()).getTime() + TOKEN_EXPIRE)).build());
     }
@@ -43,7 +44,7 @@ public class TokenProvider {
 
     public TokenTemporary reverseToken(String token) {
         TokenTemporary data = generateDataToken(token);
-        data.setExpiredDate(new Date((new Date()).getTime() + TOKEN_EXPIRE));
+        data.setExpiredDate(new Date(data.getExpiredDate().getTime() + REVERSE_TOKEN_EXPIRE));
         return temporaryTokenRepository.save(data);
     }
 
@@ -56,10 +57,11 @@ public class TokenProvider {
     }
 
     private static String generateRandomToken() {
-        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&";
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&/.,{}[]|+-_";
         Random rnd = new Random();
-        int len = 150;
+        int len = 148;
         StringBuilder sb = new StringBuilder(len);
+        sb.append("@1");
         for (int i = 0; i < len; i++)
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
         return sb.toString();
