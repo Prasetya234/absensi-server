@@ -5,4 +5,5 @@ import com.microservice.lab.web.model.User;
 public interface UserService {
 
     User getUserById(String id);
+    User getUserByToken();
 }

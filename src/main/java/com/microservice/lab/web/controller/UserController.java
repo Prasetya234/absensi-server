@@ -27,4 +27,9 @@ public class UserController {
     public CommonResponse<User> getUserById(@PathVariable("id") String id) {
         return ResponseHelper.ok(userService.getUserById(id));
     }
+
+    @GetMapping
+    public CommonResponse<User> getUserByToken() {
+        return ResponseHelper.ok(userService.getUserByToken());
+    }
 }
