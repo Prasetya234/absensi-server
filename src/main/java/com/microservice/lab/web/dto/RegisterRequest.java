@@ -24,6 +24,6 @@ public class RegisterRequest {
     private GenderEnum gender;
     private Date birthDate;
     private Boolean favorite;
-    private String schoolId;
+    private String idSchool;
 }
 

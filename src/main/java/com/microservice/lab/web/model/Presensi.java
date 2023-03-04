@@ -1,5 +1,6 @@
 package com.microservice.lab.web.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.microservice.lab.configuration.auditable.DateConfig;
 import lombok.*;
@@ -22,6 +23,7 @@ public class Presensi extends DateConfig {
     private String id;
     @Column(name = "face_number")
     private String faceNumber;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "date_submit")
     private Date dateSubmit;
     @Column(name = "latitude")

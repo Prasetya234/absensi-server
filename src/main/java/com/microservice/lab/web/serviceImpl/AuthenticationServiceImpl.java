@@ -65,7 +65,7 @@ public  class AuthenticationServiceImpl implements AuthenticationService {
     public User register(RegisterRequest registerRequest) {
         User user = modelMapper.map(registerRequest, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setSchoolId(schoolRepository.findById(registerRequest.getSchoolId()).orElseThrow(() -> new NotFoundException("CLASS BOOTCAMP ID NOT FOUND")));
+        user.setSchoolId(schoolRepository.findById(registerRequest.getIdSchool()).orElseThrow(() -> new NotFoundException("CLASS BOOTCAMP ID NOT FOUND")));
         user.setRoleId(roleRepository.findById(1).get());
         user.setViewers(0);
         return userRepository.save(user);

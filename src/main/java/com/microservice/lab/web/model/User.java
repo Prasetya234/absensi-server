@@ -46,7 +46,7 @@ public class User extends DateConfig {
     @Enumerated(EnumType.STRING)
     @Column(name="gender")
     private GenderEnum gender;
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "birth_date")
     private Date birthDate;
     @Column(name = "favorite")
