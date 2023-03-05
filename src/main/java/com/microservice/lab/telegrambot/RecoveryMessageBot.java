@@ -1,10 +1,12 @@
 package com.microservice.lab.telegrambot;
 
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 
+@Component
 public class RecoveryMessageBot {
         public void sendMessage(Date date, String ipAddress, String token, String message) {
             String space = "\n";
