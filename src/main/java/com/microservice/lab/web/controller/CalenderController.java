@@ -26,7 +26,7 @@ public class CalenderController {
         return ResponseHelper.ok(calenderService.findAll(month, year));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
     @PostMapping
     public CommonResponse<Calender> add(@RequestBody CalenderRequest calenderRequest) {
         return ResponseHelper.ok(calenderService.add(calenderRequest));

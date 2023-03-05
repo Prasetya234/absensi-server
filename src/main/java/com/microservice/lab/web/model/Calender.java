@@ -27,6 +27,6 @@ public class Calender {
     private Boolean isHoliday;
     @ManyToOne
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JoinColumn(name = "school_id")
+    @JoinColumn(name = "class_bootcamp_id")
     private School schoolId;
 }

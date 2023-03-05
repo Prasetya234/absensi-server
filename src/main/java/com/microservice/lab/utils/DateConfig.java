@@ -38,7 +38,6 @@ public class DateConfig {
             setTimeToBeginningOfDay(calendar);
             begining = calendar.getTime();
         }
-
         {
             Calendar calendar = getCalendarForCustom(month, year);
             calendar.set(Calendar.DAY_OF_MONTH,
@@ -50,7 +49,7 @@ public class DateConfig {
     }
     private static Calendar getCalendarForCustom(int month, int year) {
         Calendar cal = Calendar.getInstance();
-        cal.set(year,month-1, 05);
+        cal.set(year,month-1, 5);
         return cal;
     }
     private static Calendar getCalendarForNow() {

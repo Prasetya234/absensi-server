@@ -9,13 +9,11 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing;
 @EnableJdbcAuditing
 @SpringBootApplication
 public class ServerAbsensiApplication {
-
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 	public static void main(String[] args) {
-		SpringApplication.run(ServerAbsensiApplication.class, args);
+			SpringApplication.run(ServerAbsensiApplication.class, args);
 	}
-
 }

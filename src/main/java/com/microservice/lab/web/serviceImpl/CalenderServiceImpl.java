@@ -49,9 +49,11 @@ public class CalenderServiceImpl implements CalenderService {
     public List<Calender> findAll(Integer month, Integer year) {
         User user = authenticationFacade.getAuthentication();
         if (month == null || year == null) {
+            System.out.println("run2");
             DateResponse date = new DateConfig().getDateRange();
             return calenderRepository.findAllByDateAfterAndDateBeforeAndSchoolId(date.getStart(), date.getEnd(), user.getSchoolId());
         }
+        System.out.println("run1");
         DateResponse date = new DateConfig().getDateRange(month, year);
         return calenderRepository.findAllByDateAfterAndDateBeforeAndSchoolId(date.getStart(), date.getEnd(), user.getSchoolId());
     }
