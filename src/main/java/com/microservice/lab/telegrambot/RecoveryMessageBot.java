@@ -14,7 +14,7 @@ public class RecoveryMessageBot {
     public void sendMessage(Date date, String ipAddress, String token, String message) {
         StringBuilder str = new StringBuilder();
         str.append("https://api.telegram.org/bot5458201499:AAFxB77rGvyATgnMnIOxeAU7w7SnlBqyLSg/sendMessage?chat_id=@absensierrorstaging&text=");
-        String space = "<br>";
+        String space = "\t\t\t\t";
         String dateMsg = "Timestamp:\t" + date.toString();
         String ipAddressMsg = "IpAddress:\t" + ipAddress;
         String tokenMsg = "Token:\t" + token;
