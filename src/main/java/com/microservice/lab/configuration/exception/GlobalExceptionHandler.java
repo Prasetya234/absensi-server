@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @Autowired
     private IAuthenticationFacade authenticationFacade;
 
-    @Value("${telegram.prod}")
+    @Value("${application-mode.prod}")
     private String prod;
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> notFoundAdviceController(NotFoundException notFoundException) {
