@@ -15,13 +15,15 @@ public class RecoveryMessageBot {
         StringBuilder str = new StringBuilder();
         str.append("https://api.telegram.org/bot5458201499:AAFxB77rGvyATgnMnIOxeAU7w7SnlBqyLSg/sendMessage?chat_id=@absensierrorstaging&text=");
         String space = "\n";
-        String dateMsg = "Timestamp: " + date.toString();
-        String ipAddressMsg = "IpAddress: " + ipAddress;
-        String tokenMsg = "Token: " + token;
-        String messageMsg = "Message: " + message;
+        String dateMsg = "Timestamp:\t" + date.toString();
+        String ipAddressMsg = "IpAddress:\t" + ipAddress;
+        String tokenMsg = "Token:\t" + token;
+        String messageMsg = "Message:\t" + message;
         final String messageFinal = dateMsg + space + ipAddressMsg + space + tokenMsg + space + messageMsg;
+
         str.append(messageFinal);
         final String uri = str.toString();
+        System.out.println(uri);
         RestTemplate restTemplate = new RestTemplate();
         final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM));
