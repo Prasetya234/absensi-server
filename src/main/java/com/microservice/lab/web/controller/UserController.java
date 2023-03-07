@@ -5,10 +5,7 @@ import com.microservice.lab.configuration.response.ResponseHelper;
 import com.microservice.lab.web.model.User;
 import com.microservice.lab.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +28,10 @@ public class UserController {
     @GetMapping
     public CommonResponse<User> getUserByToken() {
         return ResponseHelper.ok(userService.getUserByToken());
+    }
+
+    @PutMapping("/{id}")
+    public CommonResponse<User> updateUser(@PathVariable("id") String id, @RequestBody User user) {
+        return ResponseHelper.ok(userService.updateUser(id, user));
     }
 }
