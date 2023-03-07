@@ -28,5 +28,6 @@ public class Calender {
     @ManyToOne
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "class_bootcamp_id")
+//    @JoinColumn(name = "school_id")
     private School schoolId;
 }
