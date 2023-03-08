@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -77,9 +76,10 @@ public class SchoolServiceImpl implements SchoolService {
         return schoolRepository.save(update);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<User> findAllStudents() {
-        return userRepository.findAllBySchoolIdAndRoleId(authenticationFacade.getAuthentication().getSchoolId(), roleRepository.findById(1).get());
+    public Page<User> findAllStudents(Pageable pageable) {
+        return userRepository.findAllBySchoolIdAndRoleId(authenticationFacade.getAuthentication().getSchoolId(), roleRepository.findById(1).get(), pageable);
     }
 
     @Transactional

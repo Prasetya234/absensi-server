@@ -32,8 +32,9 @@ public class SchoolController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
     @GetMapping("/students")
-    public CommonResponse<List<User>> findAllStudents() {
-        return ResponseHelper.ok(schoolService.findAllStudents());
+    public CommonResponse<Page<User>> findAllStudents(@RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseHelper.ok(schoolService.findAllStudents(pageable));
     }
 
     @GetMapping("/{id}")
