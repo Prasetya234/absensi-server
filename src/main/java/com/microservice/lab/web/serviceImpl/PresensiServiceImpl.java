@@ -11,6 +11,8 @@ import com.microservice.lab.web.service.PresensiService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,9 +60,9 @@ public class PresensiServiceImpl implements PresensiService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Presensi> findAllData(Boolean isLate) {
-        if (isLate == null) return presensiRepository.findAllBySchoolId(authenticationFacade.getAuthentication().getSchoolId());
-         return presensiRepository.findAllByIsLate(isLate);
+    public Page<Presensi> findAllData(Boolean isLate, Pageable pageable) {
+        if (isLate == null) return presensiRepository.findAllBySchoolId(authenticationFacade.getAuthentication().getSchoolId(), pageable);
+         return presensiRepository.findAllByIsLate(isLate, pageable);
     }
 
     @Override
