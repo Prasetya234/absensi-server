@@ -12,8 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/presensi")
@@ -33,13 +33,18 @@ public class PresensiController {
 
     @PreAuthorize("hasAnyAuthority('INSTRUCTOR', 'ADMIN')")
     @GetMapping
-    public CommonResponse<Page<Presensi>> getAllDataAbsen(@RequestParam(name = "isLate", required = false) Boolean isLate, @RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public CommonResponse<Page<Presensi>> getAllDataAbsen(@RequestParam(name = "search", required = false) String keyword , @RequestParam(name = "isLate", required = false) Boolean isLate, @RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseHelper.ok(presensiService.findAllData(isLate, pageable));
+        return ResponseHelper.ok(presensiService.findAllData(keyword, isLate, pageable));
     }
 
     @GetMapping("/check")
     public CommonResponse<Map<String, Boolean>> checkAlreadyAbsen() {
         return ResponseHelper.ok(presensiService.absentAvailable());
+    }
+
+    @GetMapping("/last")
+    public CommonResponse<Optional<Presensi>> lastAbsent() {
+        return ResponseHelper.ok(presensiService.lastAbsent());
     }
 }

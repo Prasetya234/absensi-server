@@ -6,9 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Map;
+import java.util.Optional;
 
 public interface PresensiService {
     Presensi absen(PresensiDTO presensiDTO);
-    Page<Presensi> findAllData(Boolean isLate, Pageable pageable);
+    Page<Presensi> findAllData(String keyword, Boolean isLate, Pageable pageable);
     Map<String, Boolean> absentAvailable();
+
+    Optional<Presensi> lastAbsent();
 }

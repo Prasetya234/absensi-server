@@ -1,4 +1,5 @@
 package com.microservice.lab.web.serviceImpl;
+
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
 import com.microservice.lab.configuration.exception.BussinesException;
 import com.microservice.lab.web.dto.PresensiDTO;
@@ -20,8 +21,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -35,7 +36,7 @@ public class PresensiServiceImpl implements PresensiService {
     private UserRepository userRepository;
 
     @Autowired
-    public PresensiServiceImpl(IAuthenticationFacade authenticationFacade, PresensiRepository presensiRepository,ModelMapper modelMapper, FaceUserRepository faceUserRepository, UserRepository userRepository) {
+    public PresensiServiceImpl(IAuthenticationFacade authenticationFacade, PresensiRepository presensiRepository, ModelMapper modelMapper, FaceUserRepository faceUserRepository, UserRepository userRepository) {
         this.authenticationFacade = authenticationFacade;
         this.presensiRepository = presensiRepository;
         this.faceUserRepository = faceUserRepository;
@@ -45,11 +46,12 @@ public class PresensiServiceImpl implements PresensiService {
 
     @Override
     public Presensi absen(PresensiDTO presensiDTO) {
-        if (presensiRepository.findByDateSubmit(dateNow(), authenticationFacade.getAuthentication().getId()).isPresent()) throw new BussinesException("YOU ALREADY ABSENCE");
+        if (presensiRepository.findByDateSubmit(dateNow(), authenticationFacade.getAuthentication().getId()).isPresent())
+            throw new BussinesException("YOU ALREADY ABSENCE");
         boolean isFaceReady = false;
         FaceUser faceUser = faceUserRepository.findByUserId(authenticationFacade.getAuthentication()).get();
         Presensi presensi = modelMapper.map(presensiDTO, Presensi.class);
-        for (String faceNumb: faceUser.getDetectorScore().split(","))  {
+        for (String faceNumb : faceUser.getDetectorScore().split(",")) {
             if (faceNumb.equals(presensiDTO.getFaceNumber())) isFaceReady = true;
         }
         if (!isFaceReady) throw new BussinesException("FACE DATA NOT FOUND");
@@ -59,10 +61,16 @@ public class PresensiServiceImpl implements PresensiService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<Presensi> lastAbsent() {
+        return presensiRepository.findByDateSubmit(dateNow(), authenticationFacade.getAuthentication().getId());
+    }
+
+    @Transactional(readOnly = true)
     @Override
-    public Page<Presensi> findAllData(Boolean isLate, Pageable pageable) {
-        if (isLate == null) return presensiRepository.findAllBySchoolId(authenticationFacade.getAuthentication().getSchoolId(), pageable);
-         return presensiRepository.findAllByIsLate(isLate, pageable);
+    public Page<Presensi> findAllData(String keyword, Boolean isLate, Pageable pageable) {
+        if (isLate == null)
+            return presensiRepository.findAllBySchoolId(authenticationFacade.getAuthentication().getSchoolId(), pageable);
+         return presensiRepository.findAllByIsLate(keyword, isLate, pageable);
     }
 
     @Override
@@ -70,7 +78,7 @@ public class PresensiServiceImpl implements PresensiService {
         Map<String, Boolean> obj = new HashMap<>();
         obj.put("absen", presensiRepository.findByDateSubmit(dateNow(), authenticationFacade.getAuthentication().getId()).isPresent());
         obj.put("face", faceUserRepository.findByUserId(authenticationFacade.getAuthentication()).isPresent());
-        return  obj;
+        return obj;
     }
 
     private String dateNow() {
@@ -78,4 +86,5 @@ public class PresensiServiceImpl implements PresensiService {
         System.out.println(df.format(new Date()));
         return df.format(new Date());
     }
+
 }

@@ -23,7 +23,7 @@ public class Presensi extends DateConfig {
     private String id;
     @Column(name = "face_number")
     private String faceNumber;
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "date_submit")
     private Date dateSubmit;
     @Column(name = "latitude")
