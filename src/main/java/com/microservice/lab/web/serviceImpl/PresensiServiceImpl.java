@@ -81,6 +81,16 @@ public class PresensiServiceImpl implements PresensiService {
         return obj;
     }
 
+    @Override
+    public Long totalPresent() {
+        return presensiRepository.countByUserId(authenticationFacade.getAuthentication());
+    }
+
+    @Override
+    public Long totalLate() {
+        return presensiRepository.countByUserIdAndIsLate(authenticationFacade.getAuthentication(), true);
+    }
+
     private String dateNow() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         System.out.println(df.format(new Date()));

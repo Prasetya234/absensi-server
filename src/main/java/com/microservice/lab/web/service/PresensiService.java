@@ -12,6 +12,8 @@ public interface PresensiService {
     Presensi absen(PresensiDTO presensiDTO);
     Page<Presensi> findAllData(String keyword, Boolean isLate, Pageable pageable);
     Map<String, Boolean> absentAvailable();
+    Long totalPresent();
+    Long totalLate();
 
     Optional<Presensi> lastAbsent();
 }

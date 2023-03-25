@@ -47,4 +47,14 @@ public class PresensiController {
     public CommonResponse<Optional<Presensi>> lastAbsent() {
         return ResponseHelper.ok(presensiService.lastAbsent());
     }
+
+    @GetMapping("/total-present")
+    public CommonResponse<Long> presentTotal() {
+        return ResponseHelper.ok(presensiService.totalPresent());
+    }
+
+    @GetMapping("/total-late")
+    public CommonResponse<Long> lateTotal() {
+        return ResponseHelper.ok(presensiService.totalLate());
+    }
 }

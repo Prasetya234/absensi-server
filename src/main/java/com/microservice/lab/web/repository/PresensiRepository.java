@@ -2,6 +2,7 @@ package com.microservice.lab.web.repository;
 
 import com.microservice.lab.web.model.School;
 import com.microservice.lab.web.model.Presensi;
+import com.microservice.lab.web.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,9 @@ public interface PresensiRepository extends JpaRepository<Presensi, String> {
 
     @Query(value = "SELECT * FROM presensi p JOIN user u ON p.user_id = u.id WHERE u.first_name LIKE CONCAT('%', ?1, '%') AND p.is_late = ?2", nativeQuery = true)
     Page<Presensi> findAllByIsLate(String keyword, boolean isLate, Pageable pageable);
+
+    Long countByUserIdAndIsLate(User userId, Boolean isLate);
+    Long countByUserId(User userId);
 
     @Query(value = "SELECT * FROM presensi WHERE CAST(date_submit AS DATE) = ?1 AND user_id = ?2", nativeQuery = true)
     Optional<Presensi> findByDateSubmit(String dateSubmit, String userId);
