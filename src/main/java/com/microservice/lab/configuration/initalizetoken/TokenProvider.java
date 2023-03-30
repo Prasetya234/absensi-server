@@ -57,7 +57,7 @@ public class TokenProvider {
     }
 
     private static String generateRandomToken() {
-        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&/.,{}[]|+-_";
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$/.,{}[]|+-_";
         Random rnd = new Random();
         int len = 148;
         StringBuilder sb = new StringBuilder(len);

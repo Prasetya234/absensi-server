@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface PresensiRepository extends JpaRepository<Presensi, String> {
     Page<Presensi> findAllBySchoolId(School school, Pageable pageable);
 
-    @Query(value = "SELECT * FROM presensi p JOIN user u ON p.user_id = u.id WHERE u.first_name LIKE CONCAT('%', ?1, '%') AND p.is_late = ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM presensi p LEFT JOIN user u ON p.user_id = u.id WHERE u.first_name LIKE CONCAT('%', ?1, '%') AND  p.is_late LIKE CONCAT('%', ?2, '%')", nativeQuery = true)
     Page<Presensi> findAllByIsLate(String keyword, boolean isLate, Pageable pageable);
 
     Long countByUserIdAndIsLate(User userId, Boolean isLate);

@@ -68,8 +68,6 @@ public class PresensiServiceImpl implements PresensiService {
     @Transactional(readOnly = true)
     @Override
     public Page<Presensi> findAllData(String keyword, Boolean isLate, Pageable pageable) {
-        if (isLate == null)
-            return presensiRepository.findAllBySchoolId(authenticationFacade.getAuthentication().getSchoolId(), pageable);
          return presensiRepository.findAllByIsLate(keyword, isLate, pageable);
     }
 

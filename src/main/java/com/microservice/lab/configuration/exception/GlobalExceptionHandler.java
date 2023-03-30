@@ -48,7 +48,13 @@ public class GlobalExceptionHandler {
             RecoveryMessageBot messageBot = new RecoveryMessageBot();
             User user = authenticationFacade.getAuthentication();
             TokenTemporary token = temporaryTokenRepository.findByUser(user).orElse(null);
-            messageBot.sendMessage(new Date(), HttpReqRespUtils.getIpAddress(),request.getRequestURL().toString() + "?" + request.getQueryString(), request.getMethod(), CharStreams.toString(request.getReader()), user.getEmail(), token.getToken());
+            String url;
+            if (request.getQueryString() == null)
+                 url = request.getRequestURL().toString();
+            else
+                url = request.getRequestURL().toString() + "?" + request.getQueryString();
+
+            messageBot.sendMessage(new Date(), HttpReqRespUtils.getIpAddress(), url, request.getMethod(), CharStreams.toString(request.getReader()), user.getEmail(), token.getToken());
         }
         return ResponseHelper.err(runtimeException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

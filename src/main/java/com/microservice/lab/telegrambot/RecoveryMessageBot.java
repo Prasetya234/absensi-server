@@ -28,9 +28,9 @@ public class RecoveryMessageBot {
         param += '\n';
         param += "payload: " + telegramMessage.getPayload();
         param += '\n';
+        param += "token: " + telegramMessage.getToken();
+        param += '\n';
         param += "url: " + telegramMessage.getUrl();
-//        param += '\n';
-//        param += "token: " + telegramMessage.getToken();
         final String uri = mainUrl+param;
         RestTemplate restTemplate = new RestTemplate();
         final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
