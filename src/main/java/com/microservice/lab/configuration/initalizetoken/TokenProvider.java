@@ -57,11 +57,11 @@ public class TokenProvider {
     }
 
     private static String generateRandomToken() {
-        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$/.,{}[]|+-_";
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         Random rnd = new Random();
         int len = 148;
         StringBuilder sb = new StringBuilder(len);
-        sb.append("@1");
+        sb.append("v1_");
         for (int i = 0; i < len; i++)
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
         return sb.toString();
