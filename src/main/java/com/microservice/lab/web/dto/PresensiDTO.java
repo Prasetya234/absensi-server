@@ -15,5 +15,5 @@ public class PresensiDTO {
     private Boolean permissionAttend;
     private String note;
     private Date dateSubmit;
-    private String idReason;
+    private String reason;
 }

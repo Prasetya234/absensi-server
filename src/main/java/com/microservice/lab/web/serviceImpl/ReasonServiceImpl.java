@@ -31,7 +31,7 @@ public class ReasonServiceImpl implements ReasonService {
     @Transactional
     @Override
     public Reason add(Reason reason) {
-        return (Reason) reasonRepository.save(reason);
+       return reasonRepository.save(reason);
     }
 
     @Transactional
