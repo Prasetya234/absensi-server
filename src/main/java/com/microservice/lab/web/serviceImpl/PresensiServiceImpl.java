@@ -19,10 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -95,8 +92,9 @@ public class PresensiServiceImpl implements PresensiService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Presensi> findAllData(String keyword, String isLate, School school, Pageable pageable) {
-        return presensiRepository.findAllByIsLate(keyword, isLate, school, pageable);
+//    public Page<Presensi> findAllData(String keyword, String isLate, String school, Pageable pageable) {
+    public List<Presensi> findAllData(String keyword, String isLate, String school) {
+        return presensiRepository.findAllByIsLate(keyword, isLate, school);
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -43,10 +44,11 @@ public class PresensiController {
 
     @PreAuthorize("hasAnyAuthority('INSTRUCTOR', 'ADMIN')")
     @GetMapping
-    public CommonResponse<Page<Presensi>> getAllDataAbsen(@RequestParam(name = "search", required = false) String keyword , @RequestParam(name = "isLate", required = false) String isLate, @RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        School school = authenticationFacade.getAuthentication().getSchoolId();
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseHelper.ok(presensiService.findAllData(keyword, isLate, school, pageable));
+//    public CommonResponse<Page<Presensi>> getAllDataAbsen(@RequestParam(name = "search", required = false) String keyword, @RequestParam(name = "isLate", required = false) String isLate, @RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam(name = "size" , required = false, defaultValue = "10") int size) {
+    public CommonResponse<List<Presensi>> getAllDataAbsen(@RequestParam(name = "search", required = false) String keyword, @RequestParam(name = "isLate", required = false) String isLate) {
+        String school = authenticationFacade.getAuthentication().getSchoolId().getId();
+//        Pageable pageable = PageRequest.of(page, size);
+        return ResponseHelper.ok(presensiService.findAllData(keyword, isLate, school));
     }
 
     @GetMapping("/check")

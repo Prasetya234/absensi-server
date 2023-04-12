@@ -9,13 +9,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PresensiRepository extends JpaRepository<Presensi, String> {
 
-    @Query(value = "SELECT p.* FROM presensi p LEFT JOIN user u ON p.user_id = u.id WHERE u.first_name LIKE CONCAT('%', ?1, '%') AND p.is_late LIKE CONCAT('%', ?2, '%') AND p.class_bootcamp_id LIKE CONCAT('%', ?3, '%')", nativeQuery = true)
-    Page<Presensi> findAllByIsLate(String keyword, String isLate, School school, Pageable pageable);
+//    @Query(value = "SELECT * FROM presensi p LEFT JOIN user u ON p.user_id = u.id WHERE u.first_name LIKE CONCAT('%', :keyword, '%') AND p.is_late LIKE CONCAT('%', :isLate, '%') AND p.class_bootcamp_id = :school", nativeQuery = true)
+    @Query(value = "SELECT * FROM presensi LEFT JOIN user ON presensi.user_id = user.id WHERE user.first_name LIKE CONCAT('%', ?1, '%') AND presensi.is_late LIKE CONCAT('%', ?2, '%') AND presensi.class_bootcamp_id = ?3", nativeQuery = true)
+//    Page<Presensi> findAllByIsLate(String keyword, String isLate, String school, Pageable pageable);
+    List<Presensi> findAllByIsLate(String keyword, String isLate, String school);
 
     Long countByUserIdAndIsLate(User userId, Boolean isLate);
 
