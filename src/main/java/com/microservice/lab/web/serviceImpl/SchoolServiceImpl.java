@@ -2,6 +2,8 @@ package com.microservice.lab.web.serviceImpl;
 
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
 import com.microservice.lab.configuration.exception.NotFoundException;
+import com.microservice.lab.web.dto.SchoolDTO;
+import com.microservice.lab.web.model.Role;
 import com.microservice.lab.web.model.School;
 import com.microservice.lab.web.model.OperationalClass;
 import com.microservice.lab.web.model.User;
@@ -11,6 +13,7 @@ import com.microservice.lab.web.repository.RoleRepository;
 import com.microservice.lab.web.repository.UserRepository;
 import com.microservice.lab.web.service.SchoolService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -27,31 +31,41 @@ public class SchoolServiceImpl implements SchoolService {
     private SchoolRepository schoolRepository;
     private UserRepository userRepository;
     private IAuthenticationFacade authenticationFacade;
-
     private OperationalClassRepository operationalClassRepository;
     private RoleRepository roleRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public SchoolServiceImpl(SchoolRepository schoolRepository, UserRepository userRepository, IAuthenticationFacade authenticationFacade, RoleRepository roleRepository, OperationalClassRepository operationalClassRepository) {
+    public SchoolServiceImpl(SchoolRepository schoolRepository, UserRepository userRepository, IAuthenticationFacade authenticationFacade, RoleRepository roleRepository, OperationalClassRepository operationalClassRepository, ModelMapper modelMapper) {
         this.schoolRepository = schoolRepository;
         this.userRepository = userRepository;
         this.authenticationFacade = authenticationFacade;
         this.operationalClassRepository = operationalClassRepository;
         this.roleRepository = roleRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Transactional
     @Override
-    public School add(School school) {
-        OperationalClass operationalClass = operationalClassRepository.save(school.getOperationalClass());
-        school.setOperationalClass(operationalClass);
+    public School add(SchoolDTO schoolDTO) {
+        OperationalClass oc = operationalClassRepository.save(schoolDTO.getOperationalClass());
+        School school = modelMapper.map(schoolDTO, School.class);
+        school.setName(schoolDTO.getName());
+        school.setAddress(schoolDTO.getAddress());
+        school.setAvatarUrl(schoolDTO.getAvatarUrl());
+        school.setBackgroundProfile(schoolDTO.getBackgroundProfile());
+        school.setFoundation(schoolDTO.getFoundation());
+        school.setLeadInstructor(schoolDTO.getLeadInstructor());
+        school.setNumberPhone(schoolDTO.getNumberPhone());
+        school.setTotalStudent(schoolDTO.getTotalStudent());
+        school.setOperationalClass(oc);
         return schoolRepository.save(school);
     }
 
     @Transactional(readOnly = true)
     @Override
     public School findById(String id) {
-            return schoolRepository.findById(id).orElseThrow(() -> new NotFoundException("SCHOOL ID NOT FOUND"));
+        return schoolRepository.findById(id).orElseThrow(() -> new NotFoundException("SCHOOL ID NOT FOUND"));
     }
 
     @Transactional(readOnly = true)
@@ -78,8 +92,10 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<User> findAllStudents(Pageable pageable) {
-        return userRepository.findAllBySchoolIdAndRoleId(authenticationFacade.getAuthentication().getSchoolId(), roleRepository.findById(1).get(), pageable);
+    public List<User> findAllStudents(String keyword) {
+        String schoolId = authenticationFacade.getAuthentication().getSchoolId().getId();
+        Integer roleId = roleRepository.findById(1).get().getId();
+        return userRepository.findAllBySchoolIdAndRoleId(keyword, schoolId, roleId);
     }
 
     @Transactional

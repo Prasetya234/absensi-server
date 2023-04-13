@@ -1,9 +1,12 @@
 package com.microservice.lab.web.controller;
 
+import com.microservice.lab.configuration.data.IAuthenticationFacade;
 import com.microservice.lab.configuration.response.CommonResponse;
 import com.microservice.lab.configuration.response.ResponseHelper;
+import com.microservice.lab.web.dto.SchoolDTO;
 import com.microservice.lab.web.model.School;
 import com.microservice.lab.web.model.User;
+import com.microservice.lab.web.repository.RoleRepository;
 import com.microservice.lab.web.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,26 +18,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/class-bootcamp")
+@RequestMapping("/api/school")
 public class SchoolController {
     private SchoolService schoolService;
 
+    private IAuthenticationFacade authenticationFacade;
+    private RoleRepository roleRepository;
+
     @Autowired
-    public SchoolController(SchoolService schoolService) {
+    public SchoolController(SchoolService schoolService, IAuthenticationFacade authenticationFacade, RoleRepository roleRepository) {
         this.schoolService = schoolService;
+        this.authenticationFacade = authenticationFacade;
+        this.roleRepository = roleRepository;
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
     @PostMapping
-    public CommonResponse<School> add(@RequestBody School school) {
-        return ResponseHelper.ok(schoolService.add(school));
+    public CommonResponse<School> add(@RequestBody SchoolDTO schoolDTO) {
+        return ResponseHelper.ok(schoolService.add(schoolDTO));
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
     @GetMapping("/students")
-    public CommonResponse<Page<User>> findAllStudents(@RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseHelper.ok(schoolService.findAllStudents(pageable));
+    public CommonResponse<List<User>> findAllStudents(@RequestParam(name = "keyword", required = false) String keyword) {
+        return ResponseHelper.ok(schoolService.findAllStudents(keyword));
     }
 
     @GetMapping("/{id}")
@@ -44,7 +51,7 @@ public class SchoolController {
 
     @GetMapping
     public CommonResponse<Page<School>> findAll(@RequestParam(name = "page", required = false, defaultValue = "0") int page, @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page, size);
         return ResponseHelper.ok(schoolService.findAll(pageable));
     }
 
