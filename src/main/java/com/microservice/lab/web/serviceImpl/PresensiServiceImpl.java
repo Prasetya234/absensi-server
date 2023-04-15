@@ -2,10 +2,12 @@ package com.microservice.lab.web.serviceImpl;
 
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
 import com.microservice.lab.configuration.exception.BussinesException;
+import com.microservice.lab.configuration.exception.NotFoundException;
 import com.microservice.lab.web.dto.PresensiDTO;
 import com.microservice.lab.web.model.*;
 import com.microservice.lab.web.repository.FaceUserRepository;
 import com.microservice.lab.web.repository.PresensiRepository;
+import com.microservice.lab.web.repository.ReasonRepository;
 import com.microservice.lab.web.repository.UserRepository;
 import com.microservice.lab.web.service.PresensiService;
 import com.microservice.lab.web.service.ReasonService;
@@ -34,15 +36,18 @@ public class PresensiServiceImpl implements PresensiService {
 
     private ReasonService reasonService;
 
+    private ReasonRepository reasonRepository;
+
 
     @Autowired
-    public PresensiServiceImpl(IAuthenticationFacade authenticationFacade, PresensiRepository presensiRepository, ModelMapper modelMapper, FaceUserRepository faceUserRepository, UserRepository userRepository, ReasonService reasonService) {
+    public PresensiServiceImpl(IAuthenticationFacade authenticationFacade, PresensiRepository presensiRepository, ModelMapper modelMapper, FaceUserRepository faceUserRepository, UserRepository userRepository, ReasonService reasonService, ReasonRepository reasonRepository) {
         this.authenticationFacade = authenticationFacade;
         this.presensiRepository = presensiRepository;
         this.faceUserRepository = faceUserRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.reasonService = reasonService;
+        this.reasonRepository = reasonRepository;
     }
 
     @Override
@@ -79,7 +84,11 @@ public class PresensiServiceImpl implements PresensiService {
         permit.setLatitude(null);
         permit.setIsLate(false);
         permit.setPermissionAttend(true);
-        permit.setReasonId(reasonService.add(new Reason(id, presensiDTO.getReason())));
+        if (findByName(presensiDTO.getReason())) {
+            permit.setReasonId(reasonService.findById(reasonRepository.findByName(presensiDTO.getReason()).get().getId()));
+        } else {
+            permit.setReasonId(reasonService.add(new Reason(id, presensiDTO.getReason())));
+        }
         permit.setSchoolId(authenticationFacade.getAuthentication().getSchoolId());
         permit.setUserId(authenticationFacade.getAuthentication());
         return presensiRepository.save(permit);
@@ -105,6 +114,12 @@ public class PresensiServiceImpl implements PresensiService {
     }
 
     @Override
+    public Boolean findByName(String name) {
+        Boolean reason = reasonRepository.findByName(name).isPresent();
+        return reason;
+    }
+
+    @Override
     public Page<Presensi> totalPresent(Pageable pageable) {
         return presensiRepository.countPresentByUserId(authenticationFacade.getAuthentication(), pageable);
     }
@@ -124,5 +139,4 @@ public class PresensiServiceImpl implements PresensiService {
         System.out.println(df.format(new Date()));
         return df.format(new Date());
     }
-
 }

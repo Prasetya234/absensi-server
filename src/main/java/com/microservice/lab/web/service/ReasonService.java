@@ -8,6 +8,8 @@ import java.util.Map;
 public interface ReasonService {
     List<Reason> findAll();
 
+    Reason findById(Integer id);
+
     Reason add(Reason reason);
 
     Reason update(Integer id, Reason reason);

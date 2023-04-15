@@ -1,6 +1,6 @@
 package com.microservice.lab.web.repository;
 
-import com.microservice.lab.web.model.School;
+import com.microservice.lab.web.model.Reason;
 import com.microservice.lab.web.model.Presensi;
 import com.microservice.lab.web.model.User;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,6 @@ public interface PresensiRepository extends JpaRepository<Presensi, String> {
     List<Presensi> findAllByIsLate(String keyword, String isLate, String school);
 
     Long countByUserIdAndIsLate(User userId, Boolean isLate);
-
     @Query(value = "SELECT * FROM presensi p WHERE p.user_id LIKE CONCAT('%', ?1, '%') AND p.permission_attend = 0", nativeQuery = true)
     Page<Presensi> countPresentByUserId(User userId, Pageable pageable);
     @Query(value = "SELECT * FROM presensi p WHERE p.user_id LIKE CONCAT('%', ?1, '%') AND p.permission_attend = 1", nativeQuery = true)

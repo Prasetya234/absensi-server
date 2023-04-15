@@ -28,6 +28,13 @@ public class ReasonServiceImpl implements ReasonService {
         return reasonRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Reason findById(Integer id) {
+        return reasonRepository.findById(id).orElseThrow(() -> new NotFoundException("Reason ID Not Found"));
+    }
+
+
     @Transactional
     @Override
     public Reason add(Reason reason) {

@@ -1,11 +1,14 @@
 package com.microservice.lab.web.controller;
 
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
+import com.microservice.lab.configuration.exception.BussinesException;
 import com.microservice.lab.configuration.response.CommonResponse;
 import com.microservice.lab.configuration.response.ResponseHelper;
 import com.microservice.lab.web.dto.PresensiDTO;
 import com.microservice.lab.web.model.Presensi;
+import com.microservice.lab.web.model.Reason;
 import com.microservice.lab.web.model.School;
+import com.microservice.lab.web.repository.ReasonRepository;
 import com.microservice.lab.web.service.PresensiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,10 +29,13 @@ public class PresensiController {
 
     private IAuthenticationFacade authenticationFacade;
 
+    private ReasonRepository reasonRepository;
+
     @Autowired
-    public PresensiController(PresensiService presensiService, IAuthenticationFacade authenticationFacade) {
+    public PresensiController(PresensiService presensiService, IAuthenticationFacade authenticationFacade, ReasonRepository reasonRepository) {
         this.presensiService = presensiService;
         this.authenticationFacade = authenticationFacade;
+        this.reasonRepository = reasonRepository;
     }
 
     @PostMapping("/absen-now")
@@ -39,6 +45,7 @@ public class PresensiController {
 
     @PostMapping("/permit")
     public CommonResponse<Presensi> permit(@RequestBody PresensiDTO presensiDTO, Integer id) {
+        System.out.println(checkAlreadyAbsen());
         return ResponseHelper.ok(presensiService.permit(presensiDTO, id));
     }
 
