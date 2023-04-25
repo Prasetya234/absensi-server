@@ -52,8 +52,7 @@ public class GlobalExceptionHandler {
             if (request.getQueryString() == null)
                  url = request.getRequestURL().toString();
             else
-                url = request.getRequestURL().toString() + "?" + request.getQueryString();
-
+                url = request.getRequestURL().toString() + "?" + request.getQueryString().replaceAll("\\&", "||"); ;
             messageBot.sendMessage(new Date(), HttpReqRespUtils.getIpAddress(), url, request.getMethod(), CharStreams.toString(request.getReader()), user.getEmail(), token.getToken());
         }
         return ResponseHelper.err(runtimeException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

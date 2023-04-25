@@ -1,6 +1,7 @@
 package com.microservice.lab.web.serviceImpl;
 
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
+import com.microservice.lab.configuration.exception.NotFoundException;
 import com.microservice.lab.utils.DateConfig;
 import com.microservice.lab.web.dto.CalenderRequest;
 import com.microservice.lab.web.dto.DateResponse;
@@ -56,6 +57,12 @@ public class CalenderServiceImpl implements CalenderService {
         System.out.println("run1");
         DateResponse date = new DateConfig().getDateRange(month, year);
         return calenderRepository.findAllByDateAfterAndDateBeforeAndSchoolId(date.getStart(), date.getEnd(), user.getSchoolId());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Calender findById(int id) {
+        return calenderRepository.findById(id).orElseThrow(() -> new NotFoundException("Calender ID not found"));
     }
 
 }
