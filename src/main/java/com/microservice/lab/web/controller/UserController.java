@@ -25,6 +25,11 @@ public class UserController {
         return ResponseHelper.ok(userService.getUserById(id));
     }
 
+    @GetMapping("/instructor")
+    public CommonResponse<User> findInstructorIdBySchool() {
+        return ResponseHelper.ok(userService.findInstructorIdBySchool());
+    }
+
     @GetMapping
     public CommonResponse<User> getUserByToken() {
         return ResponseHelper.ok(userService.getUserByToken());

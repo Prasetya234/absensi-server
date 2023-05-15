@@ -1,0 +1,2 @@
+ALTER TABLE tasks MODIFY COLUMN assignment_date DATE;
+ALTER TABLE tasks MODIFY COLUMN due_date DATE;

@@ -1,10 +1,6 @@
 package com.microservice.lab.web.repository;
 
-import com.microservice.lab.web.model.School;
-import com.microservice.lab.web.model.Role;
 import com.microservice.lab.web.model.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,6 +15,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "SELECT * FROM user u WHERE u.first_name LIKE CONCAT('%', ?1, '%') AND u.class_bootcamp_id = ?2 AND u.role_id = ?3", nativeQuery = true)
     List<User> findAllBySchoolIdAndRoleId(String keyword, String schoolId, Integer role);
+
+    @Query(value = "SELECT * FROM user u WHERE u.role_id = ?1 AND u.class_bootcamp_id = ?2", nativeQuery = true)
+    User findInstructorIdBySchool(Integer roleId, String schoolId);
 
     Optional<User> findByEmail(String email);
 

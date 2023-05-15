@@ -1,13 +1,10 @@
 package com.microservice.lab.web.controller;
 
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
-import com.microservice.lab.configuration.exception.BussinesException;
 import com.microservice.lab.configuration.response.CommonResponse;
 import com.microservice.lab.configuration.response.ResponseHelper;
 import com.microservice.lab.web.dto.PresensiDTO;
 import com.microservice.lab.web.model.Presensi;
-import com.microservice.lab.web.model.Reason;
-import com.microservice.lab.web.model.School;
 import com.microservice.lab.web.repository.ReasonRepository;
 import com.microservice.lab.web.service.PresensiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +40,13 @@ public class PresensiController {
         return ResponseHelper.ok(presensiService.absen(presensiDTO));
     }
 
+    @PostMapping("/absen")
+    public CommonResponse<Presensi> absen(@RequestBody PresensiDTO presensiDTO) {
+        return ResponseHelper.ok(presensiService.absenClick(presensiDTO));
+    }
+
     @PostMapping("/permit")
     public CommonResponse<Presensi> permit(@RequestBody PresensiDTO presensiDTO, Integer id) {
-        System.out.println(checkAlreadyAbsen());
         return ResponseHelper.ok(presensiService.permit(presensiDTO, id));
     }
 
