@@ -26,6 +26,11 @@ public class CalenderController {
         return ResponseHelper.ok(calenderService.findAll(month, year));
     }
 
+    @GetMapping("/{id}")
+    public CommonResponse<Calender> findById(@PathVariable("id") int id) {
+        return ResponseHelper.ok(calenderService.findById(id));
+    }
+
     @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
     @PostMapping
     public CommonResponse<Calender> add(@RequestBody CalenderRequest calenderRequest) {

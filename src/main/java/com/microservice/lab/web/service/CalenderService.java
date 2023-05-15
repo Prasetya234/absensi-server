@@ -9,4 +9,5 @@ import java.util.List;
 public interface CalenderService {
     Calender add(CalenderRequest calenderRequest);
     List<Calender> findAll(Integer month, Integer year);
+    Calender findById(int id);
 }
