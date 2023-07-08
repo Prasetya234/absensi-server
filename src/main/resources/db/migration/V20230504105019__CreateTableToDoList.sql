@@ -6,4 +6,4 @@ CREATE TABLE todo_list (
     update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     user_id VARCHAR(255),
     CONSTRAINT fk_todo_list_user FOREIGN KEY (user_id) REFERENCES user(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+);

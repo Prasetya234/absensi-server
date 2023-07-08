@@ -11,4 +11,4 @@ CREATE TABLE tasks (
     update_at           TIMESTAMP NOT NULL DEFAULT current_timestamp(),
     CONSTRAINT fk_tasks_user FOREIGN KEY (user_id) REFERENCES user(id),
     CONSTRAINT fk_tasks_class FOREIGN KEY (class_bootcamp_id) REFERENCES school(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ;
