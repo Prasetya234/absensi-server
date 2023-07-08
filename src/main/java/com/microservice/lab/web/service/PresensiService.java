@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public interface PresensiService {
     Presensi absen(PresensiDTO presensiDTO);
+
+    Presensi absenClick(PresensiDTO presensiDTO);
     Presensi permit(PresensiDTO presensiDTO, Integer id);
     List<Presensi> findAllData(String keyword, String isLate, String school);
     Map<String, Boolean> absentAvailable();

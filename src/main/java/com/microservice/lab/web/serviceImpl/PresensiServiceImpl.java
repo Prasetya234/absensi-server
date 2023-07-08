@@ -72,6 +72,25 @@ public class PresensiServiceImpl implements PresensiService {
     }
 
     @Override
+    public Presensi absenClick(PresensiDTO presensiDTO) {
+        if (presensiRepository.findByDateSubmit(dateNow(), authenticationFacade.getAuthentication().getId()).isPresent()) {
+            throw new BussinesException("YOU ALREADY ABSENCE");
+        }
+        Presensi absen = modelMapper.map(presensiDTO, Presensi.class);
+        absen.setDateSubmit(new Date());
+        absen.setFaceNumber("");
+        absen.setNote("");
+        absen.setLatitude(null);
+        absen.setLongitude(null);
+        absen.setIsLate(presensiDTO.getIsLate());
+        absen.setPermissionAttend(false);
+        absen.setReasonId(null);
+        absen.setSchoolId(authenticationFacade.getAuthentication().getSchoolId());
+        absen.setUserId(authenticationFacade.getAuthentication());
+        return presensiRepository.save(absen);
+    }
+
+    @Override
     public Presensi permit(PresensiDTO presensiDTO, Integer id) {
         if (presensiRepository.findByDateSubmit(dateNow(), authenticationFacade.getAuthentication().getId()).isPresent()) {
             throw new BussinesException("YOU ALREADY ABSENCE");
@@ -82,7 +101,7 @@ public class PresensiServiceImpl implements PresensiService {
         permit.setFaceNumber("");
         permit.setLongitude(null);
         permit.setLatitude(null);
-        permit.setIsLate(false);
+        permit.setIsLate(presensiDTO.getIsLate());
         permit.setPermissionAttend(true);
         if (findByName(presensiDTO.getReason())) {
             permit.setReasonId(reasonService.findById(reasonRepository.findByName(presensiDTO.getReason()).get().getId()));
@@ -136,7 +155,6 @@ public class PresensiServiceImpl implements PresensiService {
 
     private String dateNow() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(df.format(new Date()));
         return df.format(new Date());
     }
 }

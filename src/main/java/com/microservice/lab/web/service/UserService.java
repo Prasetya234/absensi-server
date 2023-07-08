@@ -7,4 +7,6 @@ public interface UserService {
     User getUserById(String id);
     User getUserByToken();
     User updateUser(String id, User user);
+
+    User findInstructorIdBySchool();
 }

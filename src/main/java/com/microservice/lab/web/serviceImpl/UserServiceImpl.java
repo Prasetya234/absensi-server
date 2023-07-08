@@ -2,10 +2,7 @@ package com.microservice.lab.web.serviceImpl;
 
 import com.microservice.lab.configuration.data.IAuthenticationFacade;
 import com.microservice.lab.configuration.exception.NotFoundException;
-import com.microservice.lab.web.dto.RegisterRequest;
-import com.microservice.lab.web.model.School;
 import com.microservice.lab.web.model.User;
-import com.microservice.lab.web.repository.SchoolRepository;
 import com.microservice.lab.web.repository.UserRepository;
 import com.microservice.lab.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +55,11 @@ public class UserServiceImpl implements UserService {
         user1.setSchoolClass(user.getSchoolClass());
         user1.setDescription(user.getDescription());
         return userRepository.save(user1);
+    }
+
+    @Override
+    public User findInstructorIdBySchool() {
+        String schoolId = iAuthenticationFacade.getAuthentication().getSchoolId().getId();
+        return userRepository.findInstructorIdBySchool(2, schoolId);
     }
 }
