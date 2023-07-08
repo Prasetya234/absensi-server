@@ -39,10 +39,7 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.save(role);
     }
 
-    @Override
-    public List<Role> findByName(String name) {
-        return roleRepository.findByNama(name);
-    }
+
 
     @Override
     public Map<String, Boolean> delete(int id) {

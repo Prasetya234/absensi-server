@@ -10,6 +10,5 @@ public interface RoleService {
     Role getById(int no);
     Role update(int id, Role role);
     Role add(Role role);
-    List<Role> findByName(String name);
     Map<String, Boolean> delete(int id);
 }

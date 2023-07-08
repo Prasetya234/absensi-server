@@ -1,8 +1,8 @@
 package com.microservice.lab.web.controller;
 
+import com.microservice.lab.configuration.response.CommonResponse;
+import com.microservice.lab.configuration.response.ResponseHelper;
 import com.microservice.lab.web.model.Role;
-import com.microservice.lab.web.response.CommonResponse;
-import com.microservice.lab.web.response.CommonResponseGenerator;
 import com.microservice.lab.web.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +20,12 @@ public class RoleController {
 
     @GetMapping
     public CommonResponse<List<Role>> findAllData() {
-        return CommonResponseGenerator.responseSukses(roleService.findAllData());
+        return ResponseHelper.ok(roleService.findAllData());
     }
 
     @GetMapping("/{id}")
     public CommonResponse<Role> findById(@PathVariable("id") int id) {
-        return CommonResponseGenerator.responseSukses(roleService.getById(id));
+        return ResponseHelper.ok(roleService.getById(id));
     }
 
     @GetMapping("/param")
@@ -35,26 +35,22 @@ public class RoleController {
 
     @GetMapping("/header")
     public CommonResponse<?> header(@RequestHeader("name") String name) {
-        return CommonResponseGenerator.responseSukses(name);
+        return ResponseHelper.ok(name);
     }
 
     @PostMapping
     public CommonResponse<Role> addRole(@RequestBody Role role) {
-        return CommonResponseGenerator.responseSukses(roleService.add(role));
+        return ResponseHelper.ok(roleService.add(role));
     }
 
     @PutMapping("/{id}")
     public CommonResponse<Role> updateRole(@PathVariable("id") int id, @RequestBody Role role) {
-        return CommonResponseGenerator.responseSukses(roleService.update(id, role));
+        return ResponseHelper.ok(roleService.update(id, role));
     }
 
     @DeleteMapping("/{id}")
     public CommonResponse<Map<String, Boolean>> delete(@PathVariable("id") int id){
-        return CommonResponseGenerator.responseSukses(roleService.delete(id));
+        return ResponseHelper.ok(roleService.delete(id));
     }
 
-    @GetMapping("/serach/{name}")
-    public CommonResponse<List<Role>> findByName(@PathVariable("name") String name) {
-        return CommonResponseGenerator.responseSukses(roleService.findByName(name));
-    }
 }
