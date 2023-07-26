@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#Ignore Engine pdf
+IronPdfEngine.2022.11.10413.Windows.x64.zip
+IronPdfEngine.2022.11.10413.Windows.x64
+html_saved.pdf
+ironpdfengine.log
