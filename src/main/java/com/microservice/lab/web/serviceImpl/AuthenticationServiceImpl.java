@@ -23,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @Service
 public  class AuthenticationServiceImpl implements AuthenticationService {
@@ -69,5 +71,17 @@ public  class AuthenticationServiceImpl implements AuthenticationService {
         user.setRoleId(roleRepository.findById(1).get());
         user.setViewers(0);
         return userRepository.save(user);
+    }
+
+    @Transactional
+    @Override
+    public String logout(HttpServletRequest request) {
+        String token = request.getHeader("x-token-value");
+        if (token != null && token.startsWith("Microservice ")) {
+            tokenProvider.deleteToken(token.replace("Microservice ", ""));
+        } else {
+            throw new BussinesException("REQUEST REJECTED");
+        }
+        return "SUCCESS";
     }
 }

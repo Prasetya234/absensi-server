@@ -29,13 +29,19 @@ public class TokenProvider {
 
     public TokenTemporary generateToken(UserDetails userDetails) {
         User user = userRepository.findByEmail(userDetails.getUsername()).get();
-        Optional<TokenTemporary> data = temporaryTokenRepository.findByUser(user);
-        if (data.isPresent()) temporaryTokenRepository.delete(data.get());
         return temporaryTokenRepository.save(TokenTemporary.builder()
                 .token(generateRandomToken())
-                .validityPeriod("5 hours")
-                .user(user)
-                .expiredDate(new Date((new Date()).getTime() + TOKEN_EXPIRE)).build());
+                .validityPeriod("Infinity")
+                .expired(false)
+                .user(user).build());
+    }
+
+    public boolean deleteToken(String token) {
+        TokenTemporary tkn =  temporaryTokenRepository.findByToken(token).orElseThrow(() -> new NotFoundException("TOKEN NOT FOUND"));
+        tkn.setExpired(true);
+        temporaryTokenRepository.save(tkn);
+        return true;
+
     }
 
     public TokenTemporary generateDataToken(String token) {
@@ -44,16 +50,12 @@ public class TokenProvider {
 
     public TokenTemporary reverseToken(String token) {
         TokenTemporary data = generateDataToken(token);
-        data.setExpiredDate(new Date(data.getExpiredDate().getTime() + REVERSE_TOKEN_EXPIRE));
         return temporaryTokenRepository.save(data);
     }
 
     public boolean validateJwtToken(String token) {
       TokenTemporary tokenUser =  temporaryTokenRepository.findByToken(token).orElseThrow(() -> new NotFoundException("TOKEN NOT FOUND"));
-      if (tokenUser.getExpiredDate().before(new Date())) {
-          return  false;
-      }
-      return  true;
+      return !tokenUser.isExpired();
     }
 
     private static String generateRandomToken() {

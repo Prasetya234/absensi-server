@@ -14,10 +14,9 @@ import com.microservice.lab.web.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -42,5 +41,10 @@ public class AuthenticationController {
             throw new BussinesException("Email already exists!");
         }
         return ResponseHelper.ok(authenticationService.register(registerRequest));
+    }
+
+    @DeleteMapping("/logout")
+    public CommonResponse<String> logout(HttpServletRequest request) {
+        return ResponseHelper.ok(authenticationService.logout(request));
     }
 }

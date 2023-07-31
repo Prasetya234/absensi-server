@@ -19,8 +19,8 @@ public class TokenTemporary {
     private String token;
     @Column(name = "validity_period")
     private String validityPeriod;
-    @Column(name =  "expired_date")
-    private Date expiredDate;
+    @Column(name =  "expired")
+    private boolean expired;
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
